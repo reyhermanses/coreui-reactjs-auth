@@ -8,8 +8,9 @@ import {
 import Logout from './views/pages/login/Logout'
 import ProtectedRoute from './components/protectedRoutes'
 
-import { useCookies } from 'react-cookie'
 import { UserContext } from './views/pages/login/UserContext'
+import { CookiesProvider } from 'react-cookie';
+import { useCookies } from 'react-cookie'
 
 
 // Containers
@@ -38,6 +39,7 @@ function App () {
 
   const [value, setValue] = useState(null)
   const [session, sessionState]  = useState(null)
+  const [cookies, setCookie] = useCookies(['token'])
 
 
   useEffect(() => {
@@ -56,17 +58,19 @@ function App () {
   return (
       <HashRouter>
         <Suspense fallback={loading}>
-        <UserContext.Provider value={{value, setValue}}>
-          <Routes>
-          <Route exact path="/login" name="Login Page" element={<Login />} />
-            <Route exact path="/logout" name="Logout Page" element={<Logout />} />
-            <Route exact path="/register" name="Register Page" element={<Register />} />
-            <Route exact path="/404" name="Page 404" element={<Page404 />} />
-            <Route exact path="/500" name="Page 500" element={<Page500 />} />
-            <Route path="*" name="Home" element={value !== null ? (<DefaultLayout/>) : (<Navigate to="/login" replace/>)} />
-            {/* <ProtectedRoute path="*" element={DefaultLayout} /> */}
-          </Routes>
-      </UserContext.Provider>
+          <UserContext.Provider value={{value, setValue}}>
+            <CookiesProvider>
+              <Routes>
+              <Route exact path="/login" name="Login Page" element={<Login />} />
+                <Route exact path="/logout" name="Logout Page" element={<Logout />} />
+                <Route exact path="/register" name="Register Page" element={<Register />} />
+                <Route exact path="/404" name="Page 404" element={<Page404 />} />
+                <Route exact path="/500" name="Page 500" element={<Page500 />} />
+                <Route path="*" name="Home" element={cookies.token ? (<DefaultLayout/>) : (<Navigate to="/login" replace/>)} />
+                {/* <ProtectedRoute path="*" element={DefaultLayout} /> */}
+              </Routes>
+            </CookiesProvider>
+          </UserContext.Provider>
         </Suspense>
       </HashRouter>
     )

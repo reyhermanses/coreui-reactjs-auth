@@ -1,7 +1,11 @@
 import React from 'react'
 import { AppContent, AppSidebar, AppFooter, AppHeader } from '../components/index'
+import { useCookies } from 'react-cookie'
 
 const DefaultLayout = () => {
+  const [cookies, setCookie] = useCookies(['token'])
+  console.log('TOKEN', cookies.token)
+
   return (
     <div>
       <AppSidebar />

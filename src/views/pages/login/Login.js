@@ -23,11 +23,13 @@ import Env from '../../../env.config'
 
 import Swal from 'sweetalert2'
 import { UserContext } from './UserContext'
+import { useCookies } from 'react-cookie'
 
 
 const Login = () => {
 
   const {value, setValue} = useContext(UserContext)
+  const [cookies, setCookie] = useCookies(['token'])
 
   const nav = useNavigate()
   const [state, setState] = useState('');
@@ -70,6 +72,7 @@ const Login = () => {
         let storeToken = localStorage.setItem('localToken', response.data.data.auth)
         // console.log(response.data.data)
         setValue(localStorage.getItem("localToken"))
+        setCookie('token', response.data.data.auth, { path: '/' })
 
         Swal.fire({
           title: 'Success !',
