@@ -27,18 +27,17 @@ const Profile = () => {
       <CCardBody>
          <CRow>
                   <CCol>
-                    {/* <CWidgetStatsF
+                    <CWidgetStatsF
                       className="mb-3"
                       icon={<CIcon width={24} icon={cilUser} size="xl" />}
-                      title= {userData.role }
-                      value= {userData.name + ' / ' + userData.username}
+                      title= {'Guru' }
+                      value= {'Rijkaard Hermanses' + ' / ' + '06520020'}
                       color="secondary"
-                    /> */}
+                    />
                   </CCol>
             </CRow>
       </CCardBody>
-    </CCard>
-     
+    </CCard> 
   )
 }
 

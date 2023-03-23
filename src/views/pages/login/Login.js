@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useContext } from 'react'
-import { Link, useNavigate, Navigate } from 'react-router-dom'
+import { Link, useNavigate, Navigate, BrowserRouter } from 'react-router-dom'
 import {
   CButton,
   CCard,
@@ -33,9 +33,9 @@ const Login = () => {
 
   const nav = useNavigate()
   const [state, setState] = useState('');
-  const [data, setData] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [validated, setValidated] = useState(false)
+
   let dataUser = {}
 
   const handleSubmit = (e) => {
@@ -60,27 +60,25 @@ const Login = () => {
 
   }
 
-  function fetchUser(){
-    axios.post(Env.API_URL + "login", dataUser) 
-      .then( (response) => {
-        setState('success')
-        setIsLoading(false)
-        // let localToken = 'test'
-        // let localToken = localStorage.setItem('localToken', JSON.stringify(response.data.data.auth))
-        // console.log(`${localToken}`)
-        console.log(response.data.data.auth)
-        let storeToken = localStorage.setItem('localToken', response.data.data.auth)
-        // console.log(response.data.data)
-        setValue(localStorage.getItem("localToken"))
-        setCookie('token', response.data.data.auth, { path: '/' })
+  function timeout(delay) {
+    return new Promise( res => setTimeout(res, delay) );
+}
 
+  function fetchUser(){
+    axios.post(Env.API_URL + "auth/login", dataUser) 
+      .then( async (response) => {
         Swal.fire({
           title: 'Success !',
           text: 'Logged in successfully',
           icon: 'success'
         })
-
+        setState('success')
+        setIsLoading(false)
+        setCookie('token', response.data.data.auth, { path: '/' })
+        setValue('success')    
+        await timeout(1000)
         nav('/')
+        window.location.reload(true)
       })
       .catch((err)=>{
         console.log(err.message)
@@ -93,10 +91,8 @@ const Login = () => {
       });
   }
 
-
-
-  return (
-    <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
+    return (
+      <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
       <CContainer>
         <CRow className="justify-content-center">
           <CCol md={8}>
@@ -160,7 +156,9 @@ const Login = () => {
         </CRow>
       </CContainer>
     </div>
-  )
+   )
+
+  
 }
 
 export default Login

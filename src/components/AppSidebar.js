@@ -10,7 +10,7 @@ import { logoNegative } from '../assets/brand/logo-negative'
 import { sygnet } from '../assets/brand/sygnet'
 
 import SimpleBar from 'simplebar-react'
-import 'simplebar/dist/simplebar.min.css'
+import 'simplebar/dist/simplebar.min.css' 
 // import ''
 
 // sidebar nav config

@@ -43,7 +43,7 @@ const _nav = [
   {
     component: CNavItem,
     name: 'Subjects',
-    to: 'subjects',
+    to: '/master/master-mata-pelajaran'
   },
   {
     component: CNavItem,

@@ -1,16 +1,17 @@
 import React from "react";
 import { Navigate, Route } from "react-router-dom";
+import { useCookies } from 'react-cookie'
 
 function ProtectedRoute ({ component: Component, ...restOfProps }) {
-
-    const isAuthenticated = localStorage.getItem("api_token");
-    console.log("this", isAuthenticated);
-    
+  const [cookies, setCookie] = useCookies(['token'])
+  
     return (
         <Route
             {...restOfProps}
-            render={(props) =>
-                isAuthenticated !== null ? <Component {...props} /> : <Navigate to="/login" replace />
+            render={(props) => {
+                    // console.log(props)
+                    cookies.token !== null ? <Component {...props} /> : <Navigate to="/login" replace />
+                }
             }
         />
     );

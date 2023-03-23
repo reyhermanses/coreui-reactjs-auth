@@ -1,5 +1,5 @@
-import React, {useState} from 'react'
-import { NavLink, useNavigate } from 'react-router-dom'
+import React, {useState, useContext} from 'react'
+import { NavLink, useNavigate, Navigate, Redirect } from 'react-router-dom'
 import {
   CAvatar,
   CBadge,
@@ -22,33 +22,42 @@ import CIcon from '@coreui/icons-react'
 
 import avatar8 from './../../assets/images/avatars/8.jpg'
 
+import { useCookies } from 'react-cookie'
+import { UserContext } from '../../views/pages/login/UserContext'
 
-// import Logout from '../../views/pages/login/Logout'
+
+import Swal from 'sweetalert2'
 
 
 const AppHeaderDropdown = () => {
 
-
   const nav = useNavigate()
+  
+  const {value, setValue} = useContext(UserContext)
+  const [cookies, setCookie] = useCookies(['token'])
 
-  let data = localStorage.removeItem('authSession')
+  function timeout(delay) {
+    return new Promise( res => setTimeout(res, delay) );
+}
 
-  const [isLogout, ] = useState(data)
-
-  const handleLogout = (e) =>{
-
-      e.preventToDefault()
-
-      if(isLogout === undefined){
-        console.log('logout')
-        nav('/login')
-      }else{
-          console.log('error logout')
-          nav('/500')
-      }
-
-  }
-
+        const handlerLogout = async(e) => {          
+          if(cookies.token !== '' || cookies.token !== undefined){
+            Swal.fire({
+              title: 'Success !',
+              text: 'You are logged out!',
+              icon: 'success'
+            })
+              setCookie('token', '')
+              setValue(null)
+              await timeout(1000)
+              window.location.reload(true)
+              nav('/login')
+          }else{
+              console.log('error logout')
+              nav('/500')
+          }
+        
+        }
 
   return (
     <CDropdown variant="nav-item">
@@ -94,9 +103,9 @@ const AppHeaderDropdown = () => {
           <CIcon icon={cilSettings} className="me-2" />
           Settings
         </CDropdownItem>
-        <CDropdownItem onClick={handleLogout}>
+        <CDropdownItem onClick={handlerLogout}>
           <CIcon icon={cilLockLocked} className="me-2" />
-          Logout
+            Logout
         </CDropdownItem>
       </CDropdownMenu>
     </CDropdown>

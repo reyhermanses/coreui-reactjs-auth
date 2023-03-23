@@ -3,10 +3,10 @@ import { AppContent, AppSidebar, AppFooter, AppHeader } from '../components/inde
 import { useCookies } from 'react-cookie'
 
 const DefaultLayout = () => {
+  
   const [cookies, setCookie] = useCookies(['token'])
-  console.log('TOKEN', cookies.token)
 
-  return (
+return (
     <div>
       <AppSidebar />
       <div className="wrapper d-flex flex-column min-vh-100 bg-light">

@@ -49,6 +49,7 @@ const Modals = React.lazy(() => import('./views/notifications/modals/Modals'))
 const Toasts = React.lazy(() => import('./views/notifications/toasts/Toasts'))
 
 const Profile = React.lazy(() => import('./views/pages/profile/Profile'))
+const MasterMataPelajaran = React.lazy(() => import('./views/pages/master/MasterMataPelajaran'))
 
 const Widgets = React.lazy(() => import('./views/widgets/Widgets'))
 
@@ -56,6 +57,7 @@ const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
   { path: '/profile', name: 'Profile', element: Profile },
+  { path: '/master/master-mata-pelajaran', name: 'Master Mata Pelajaran', element: MasterMataPelajaran },
   { path: '/theme', name: 'Theme', element: Colors, exact: true },
   { path: '/theme/colors', name: 'Colors', element: Colors },
   { path: '/theme/typography', name: 'Typography', element: Typography },
